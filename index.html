@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+	<style>
+		html,body{
+			overflow:hidden;
+			padding:0;
+			margin:0;
+			width:100%;
+			height:100%;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" width="10" height="10">
+	<script>
+
+	var myCanvas=document.getElementById("myCanvas");
+	var canvasContext=myCanvas.getContext('2d');
+	var rX;
+	var rY;
+	var mX;
+	var mY;
+	var speed=10;
+	window.onload=function(){
+		myCanvas.width = window.innerWidth;
+		myCanvas.height = window.innerHeight;
+		rX=window.innerWidth/2;
+		rY=window.innerHeight/2;
+		drawRect(0,0,myCanvas.width,myCanvas.height,"black");
+		var fps=30;
+		setInterval(function(){
+			drawEverything();
+			moveBall();
+		},1000/fps);
+		myCanvas.addEventListener('mousemove',function(evt){
+			var MousePos=calculateMousePos(evt);
+			mX=MousePos.x;
+			mY=MousePos.y;
+		})
+
+	}
+
+	function calcDist(){
+		return Math.floor(Math.sqrt((mX-rX)*(mX-rX)+(mY-rY)*(mY-rY)));
+	}
+	function moveBall(){
+		var dist=calcDist();
+		
+		if(dist>50){
+			rX-=speed*(-mX+rX)/dist;
+			rY-=speed*(-mY+rY)/dist;
+		}
+
+	}
+	function calculateMousePos(evt){
+		var rect=myCanvas.getBoundingClientRect();
+		var root=document.documentElement;
+		var mouseX=evt.clientX-rect.left-root.scrollLeft;
+		var mouseY=evt.clientY-rect.top-root.scrollTop;
+		var obj=
+		{
+			x : mouseX,
+			y : mouseY
+		};
+		return obj;
+	}
+	function drawEverything(){
+		drawRect(0,0,myCanvas.width,myCanvas.height,"black");
+		drawCircle(rX,rY,10,"red");
+	}
+
+	function drawRect(leftX,topY,width,height,color){
+		canvasContext.fillStyle=color;
+		canvasContext.fillRect(leftX,topY,width,height);	
+	}
+
+	function drawCircle(rX,rY,r,color){
+		canvasContext.fillStyle=color;
+		canvasContext.beginPath();
+		canvasContext.arc(rX,rY,r,0,Math.PI*2,true);
+		canvasContext.fill();
+	}
+	</script>
+</body>
+</html>
