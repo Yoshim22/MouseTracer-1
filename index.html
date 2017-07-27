@@ -22,13 +22,15 @@
 	var rY;
 	var mX;
 	var mY;
+	var ballCol="red";
+	var canCol="black";
 	var speed=10;
 	window.onload=function(){
 		myCanvas.width = window.innerWidth;
 		myCanvas.height = window.innerHeight;
 		rX=window.innerWidth/2;
 		rY=window.innerHeight/2;
-		drawRect(0,0,myCanvas.width,myCanvas.height,"black");
+		drawRect(0,0,myCanvas.width,myCanvas.height,canCol);
 		var fps=30;
 		setInterval(function(){
 			drawEverything();
@@ -47,7 +49,7 @@
 	}
 	function moveBall(){
 		var dist=calcDist();
-		
+		speed=(dist-50)/7;
 		if(dist>50){
 			rX-=speed*(-mX+rX)/dist;
 			rY-=speed*(-mY+rY)/dist;
@@ -67,8 +69,8 @@
 		return obj;
 	}
 	function drawEverything(){
-		drawRect(0,0,myCanvas.width,myCanvas.height,"black");
-		drawCircle(rX,rY,10,"red");
+		drawRect(0,0,myCanvas.width,myCanvas.height,canCol);
+		drawCircle(rX,rY,10,ballCol);
 	}
 
 	function drawRect(leftX,topY,width,height,color){
